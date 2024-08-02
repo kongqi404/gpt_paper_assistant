@@ -1,5 +1,5 @@
- 1. Demonstration of new time series forecasting methods
-
- In suggesting papers to your friend, remember that he enjoys papers on statistical machine learning, and generative modeling in natural language processing.
- Your friend also likes learning about surprising empirical results in language models, as well as clever statistical tricks.
- He does not want to read papers that are about primarily applications of methods to specific domains.
+1. Demonstration of new powerful state-space modeling methods
+2. Demonstration of new powerful methods for stochastic differential equations
+In suggesting papers to your friend, remember that he enjoys papers on statistical machine learning, natural language processing, computer vision and time series forecasting.
+Your friend also likes learning about surprising empirical results in language models, as well as clever statistical tricks.
+He does not want to read papers that are about primarily applications of methods to specific domains.
