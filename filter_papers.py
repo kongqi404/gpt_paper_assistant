@@ -6,6 +6,7 @@ from typing import List
 
 import retry
 from openai import OpenAI
+import google.generativeai as genai
 from tqdm import tqdm
 
 from arxiv_scraper import Paper
@@ -242,6 +243,8 @@ if __name__ == "__main__":
     keyconfig.read("configs/keys.ini")
     S2_API_KEY = keyconfig["KEYS"]["semanticscholar"]
     openai_client = OpenAI(api_key=keyconfig["KEYS"]["openai"])
+    
+
     # deal with config parsing
     with open("configs/base_prompt.txt", "r") as f:
         base_prompt = f.read()

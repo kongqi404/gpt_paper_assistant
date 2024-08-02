@@ -3,6 +3,7 @@ import configparser
 import os
 import time
 
+import google.generativeai as genai
 from openai import OpenAI
 from requests import Session
 from typing import TypeVar, Generator
@@ -192,6 +193,8 @@ if __name__ == "__main__":
             "OpenAI key is not set - please set OAI_KEY to your OpenAI key"
         )
     openai_client = OpenAI(api_key=OAI_KEY)
+    genai.configure(api_key=OAI_KEY)
+    genai_client = genai.GenerativeModel('gemini-1.5-pro')
     # load the author list
     with io.open("configs/authors.txt", "r") as fopen:
         author_names, author_ids = parse_authors(fopen.readlines())
