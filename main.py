@@ -192,9 +192,11 @@ if __name__ == "__main__":
         raise ValueError(
             "OpenAI key is not set - please set OAI_KEY to your OpenAI key"
         )
-    openai_client = OpenAI(api_key=OAI_KEY)
+    # openai_client = OpenAI(api_key=OAI_KEY)
     genai.configure(api_key=OAI_KEY)
-    genai_client = genai.GenerativeModel('gemini-1.5-pro')
+    genai_client = genai.GenerativeModel('gemini-1.5-pro',generation_config = {"temperature": 0.0})
+    
+    
     # load the author list
     with io.open("configs/authors.txt", "r") as fopen:
         author_names, author_ids = parse_authors(fopen.readlines())
@@ -231,7 +233,7 @@ if __name__ == "__main__":
         all_authors,
         papers,
         config,
-        openai_client,
+        genai_client,
         all_papers,
         selected_papers,
         sort_dict,

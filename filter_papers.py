@@ -59,22 +59,23 @@ def calc_price(model, usage):
         return (0.03 * usage.prompt_tokens + 0.06 * usage.completion_tokens) / 1000.0
     if (model == "gpt-3.5-turbo") or (model == "gpt-3.5-turbo-1106"):
         return (0.0015 * usage.prompt_tokens + 0.002 * usage.completion_tokens) / 1000.0
+    return 0
 
 
 @retry.retry(tries=3, delay=2)
 def call_chatgpt(full_prompt, openai_client, model):
-    return openai_client.chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": full_prompt}],
-        temperature=0.0,
-        seed=0,
-    )
-
-
+    # return openai_client.chat.completions.create(
+    #     model=model,
+    #     messages=[{"role": "user", "content": full_prompt}],
+    #     temperature=0.0,
+    #     seed=0,
+    # )
+    return openai_client.generate_content(full_prompt)
 def run_and_parse_chatgpt(full_prompt, openai_client, config):
     # just runs the chatgpt prompt, tries to parse the resulting JSON
     completion = call_chatgpt(full_prompt, openai_client, config["SELECTION"]["model"])
-    out_text = completion.choices[0].message.content
+    # out_text = completion.choices[0].message.content
+    out_text = completion.text
     out_text = re.sub("```jsonl\n", "", out_text)
     out_text = re.sub("```", "", out_text)
     out_text = re.sub(r"\n+", "\n", out_text)
@@ -91,7 +92,7 @@ def run_and_parse_chatgpt(full_prompt, openai_client, config):
                 print("Failed to parse LM output as json")
                 print(out_text)
                 print("RAW output")
-                print(completion.choices[0].message.content)
+                print(completion.text)
             continue
     return json_dicts, calc_price(config["SELECTION"]["model"], completion.usage)
 
@@ -133,8 +134,8 @@ def filter_papers_by_title(
         )
         model = config["SELECTION"]["model"]
         completion = call_chatgpt(full_prompt, openai_client, model)
-        cost += calc_price(model, completion.usage)
-        out_text = completion.choices[0].message.content
+        cost += calc_price(model, completion)
+        out_text = completion.text
         try:
             filtered_set = set(json.loads(out_text))
             for paper in batch:
