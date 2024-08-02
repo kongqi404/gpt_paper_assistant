@@ -94,7 +94,7 @@ def run_and_parse_chatgpt(full_prompt, openai_client, config):
                 print("RAW output")
                 print(completion.text)
             continue
-    return json_dicts, calc_price(config["SELECTION"]["model"], completion.usage)
+    return json_dicts, calc_price(config["SELECTION"]["model"], completion)
 
 
 def paper_to_string(paper_entry: Paper) -> str:
